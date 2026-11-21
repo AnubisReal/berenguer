@@ -77,7 +77,16 @@ ${link.href}`;
   );
 }
 
+const filterIcons = {
+  Todos: <path d="M5 4h8v6H5z M17 4h8v6h-8z M5 14h8v6H5z M17 14h8v6h-8z" />,
+  Trocas: <><path d="M2 10h9l2-5h5l4 6 5 1v4h-2m-5 0H10m-5 0H2z M12 10h8" /><circle cx="7.5" cy="16.5" r="2.5"/><circle cx="22.5" cy="16.5" r="2.5"/></>,
+  Camiones: <><path d="M2 4h16v11H2z M18 8h5l4 5v3h-2 M18 16h2"/><circle cx="7" cy="17" r="2.5"/><circle cx="22.5" cy="17" r="2.5"/></>,
+  Tráileres: <><path d="M2 12h18l2-6h5v3h-3l-2 6H2z M20 15v4"/><circle cx="5" cy="17.5" r="2"/><circle cx="10" cy="17.5" r="2"/></>,
+};
+
 function App() {
+  const [filter, setFilter] = useState('Todos');
+  const vehicles = fleet.filter(vehicle => filter === 'Todos' || vehicle.category === filter);
   const [showHeader, setShowHeader] = useState(() => window.scrollY > 8);
 
   useLayoutEffect(() => {
@@ -129,7 +138,15 @@ function App() {
       </div>
     </header>
       <section id="catalogo" className="fleet" aria-label="Catálogo de vehículos">
-        {fleet.map(vehicle => <VehicleCard key={vehicle.id} {...vehicle} />)}
+        <div className="fleet-filters" role="group" aria-label="Filtrar catálogo por categoría">
+          {Object.entries(filterIcons).map(([label, icon]) => (
+            <button key={label} type="button" aria-pressed={label === filter} onClick={() => setFilter(label)}>
+              <svg viewBox="0 0 30 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round">{icon}</svg>
+              {label}
+            </button>
+          ))}
+        </div>
+        {vehicles.map(vehicle => <VehicleCard key={vehicle.id} {...vehicle} />)}
       </section>
     </main>
     <footer className="site-footer">

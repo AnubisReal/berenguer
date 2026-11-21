@@ -1,6 +1,7 @@
 [
   {
     "id": "ficha-ram",
+    "category": "Trocas",
     "name": "RAM 3500",
     "image": "ram-3500-2024-blanca.jpg",
     "year": "2024",
@@ -12,6 +13,7 @@
   },
   {
     "id": "ficha-chevrolet",
+    "category": "Trocas",
     "name": "Chevrolet Silverado 3500 HD High Country",
     "image": "chevrolet-silverado-3500-hd-roja.jpg",
     "year": "2021",
@@ -23,6 +25,7 @@
   },
   {
     "id": "ficha-ford",
+    "category": "Trocas",
     "name": "Ford Super Duty",
     "image": "ford-super-duty-gris.jpg",
     "year": "2013",
@@ -34,6 +37,7 @@
   },
   {
     "id": "ficha-freightliner",
+    "category": "Camiones",
     "name": "Freightliner frigorífico",
     "image": "freightliner-frigorifico-blanco.jpg",
     "year": "2018",
@@ -45,6 +49,7 @@
   },
   {
     "id": "ficha-trailer-40",
+    "category": "Tráileres",
     "name": "Tráiler cuello de ganso de 40 pies",
     "image": "trailer-horizon-40-pies-2025.jpg",
     "year": "2025",
@@ -56,6 +61,7 @@
   },
   {
     "id": "ficha-horizon-2021-1",
+    "category": "Tráileres",
     "name": "Tráiler Horizon de 40 pies · Unidad 1",
     "image": "trailer-horizon-40-pies-2021-gris.jpg",
     "year": "2021",
@@ -67,6 +73,7 @@
   },
   {
     "id": "ficha-horizon-2021-2",
+    "category": "Tráileres",
     "name": "Tráiler Horizon de 40 pies · Unidad 2",
     "image": "trailer-horizon-40-pies-2021-gris.jpg",
     "year": "2021",

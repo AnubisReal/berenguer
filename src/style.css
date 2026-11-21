@@ -398,3 +398,39 @@ body {
     pointer-events: none;
   }
 }
+
+.fleet-filters {
+  grid-column: 1 / -1;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  inline-size: min(100%, 25rem);
+  box-sizing: border-box;
+  padding: .28rem;
+  gap: .2rem;
+  border: 1px solid #ffffffa6;
+  border-radius: 1.15rem;
+  background: #ffffff52;
+  box-shadow: 0 3px 14px #2222220c;
+}
+
+.fleet-filters button {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: .18rem;
+  min-height: 3.4rem;
+  padding: .25rem;
+  border: 0;
+  border-radius: .85rem;
+  background: transparent;
+  color: #303431;
+  font: inherit;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.fleet-filters svg { width: 1.8rem; height: 1.45rem; }
+.fleet-filters button:hover { background: #ffffff90; }
+.fleet-filters button[aria-pressed="true"] { background: #252a27; color: white; }
+.fleet-filters button:focus-visible { outline: 2px solid #39775b; outline-offset: 1px; }
