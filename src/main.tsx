@@ -84,6 +84,55 @@ const filterIcons = {
   Tráileres: <><path d="M2 12h18l2-6h5v3h-3l-2 6H2z M20 15v4"/><circle cx="5" cy="17.5" r="2"/><circle cx="10" cy="17.5" r="2"/></>,
 };
 
+function FilterBubble({ index }: { index: number }) {
+  const shape = useRef<SVGPathElement>(null);
+  const edges = useRef([{ x: index * 100, v: 0 }, { x: index * 100 + 100, v: 0 }]);
+
+  useLayoutEffect(() => {
+    const target = index * 100;
+    const [left, right] = edges.current;
+    const movingRight = target > (left.x + right.x - 100) / 2;
+    let frame = 0;
+    let previous = performance.now();
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const draw = (now: number) => {
+      const dt = Math.min((now - previous) / 1000, .024);
+      previous = now;
+      let moving = false;
+      edges.current.forEach((edge, side) => {
+        const goal = target + side * 100;
+        const stiffness = (side === 1) === movingRight ? 290 : 145;
+        edge.v += ((goal - edge.x) * stiffness - edge.v * Math.sqrt(stiffness) * 1.48) * dt;
+        edge.x += edge.v * dt;
+        if (reduced || (Math.abs(edge.x - goal) < .05 && Math.abs(edge.v) < .5)) {
+          edge.x = goal;
+          edge.v = 0;
+        } else moving = true;
+      });
+      const l = left.x + 1, r = right.x - 1, mid = (l + r) / 2;
+      const radius = Math.min(25, (r - l) / 3);
+      const neck = Math.min(18, Math.max(0, (r - l - 98) * .45));
+      shape.current?.setAttribute('d',
+        `M ${l+radius} 2 Q ${mid} ${2+2*neck} ${r-radius} 2
+         C ${r+radius*.33} 2 ${r+radius*.33} 48 ${r-radius} 48
+         Q ${mid} ${48-2*neck} ${l+radius} 48
+         C ${l-radius*.33} 48 ${l-radius*.33} 2 ${l+radius} 2 Z`);
+      if (moving) frame = requestAnimationFrame(draw);
+    };
+    draw(previous);
+    return () => cancelAnimationFrame(frame);
+  }, [index]);
+
+  return <svg className="filter-track" viewBox="0 0 400 50" preserveAspectRatio="none" aria-hidden="true">
+    <defs><linearGradient id="filter-glass" x2=".18" y2="1">
+      <stop stopColor="#fff" stopOpacity=".94" />
+      <stop offset=".55" stopColor="#c7d1cc" stopOpacity=".72" />
+      <stop offset="1" stopColor="#f7fbf8" stopOpacity=".95" />
+    </linearGradient></defs>
+    <path ref={shape} fill="url(#filter-glass)" stroke="#fff" strokeOpacity=".85" />
+  </svg>;
+}
+
 function App() {
   const [filter, setFilter] = useState('Todos');
   const vehicles = fleet.filter(vehicle => filter === 'Todos' || vehicle.category === filter);
@@ -139,10 +188,10 @@ function App() {
     </header>
       <section id="catalogo" className="fleet" aria-label="Catálogo de vehículos">
         <div className="fleet-filters" role="group" aria-label="Filtrar catálogo por categoría">
+          <FilterBubble index={Object.keys(filterIcons).indexOf(filter)} />
           {Object.entries(filterIcons).map(([label, icon]) => (
-            <button key={label} type="button" aria-pressed={label === filter} onClick={() => setFilter(label)}>
+            <button key={label} type="button" aria-label={label} title={label} aria-pressed={label === filter} onClick={() => setFilter(label)}>
               <svg viewBox="0 0 30 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round">{icon}</svg>
-              {label}
             </button>
           ))}
         </div>
