@@ -5,7 +5,7 @@ const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('"', '
 
 export function vehiclePages() {
   let base;
-  const siteUrl = process.env.SITE_URL || 'https://test.anubisreal.es';
+  const siteUrl = process.env.SITE_URL || 'http://localhost:4321';
   const pathFor = vehicle => `equipos/${vehicle.id}/`;
   function render(vehicle, origin) {
     const home = new URL(base, origin);
@@ -57,7 +57,7 @@ export function vehiclePages() {
         const vehicle = vehicles.find(item => path === base + pathFor(item));
         if (!vehicle) return next();
         const host = req.headers.host || 'localhost';
-        const protocol = req.headers['x-forwarded-proto'] === 'https' || host === 'test.anubisreal.es' ? 'https' : 'http';
+        const protocol = req.headers['x-forwarded-proto'] === 'https' ? 'https' : 'http';
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.end(render(vehicle, `${protocol}://${host}`));
       });

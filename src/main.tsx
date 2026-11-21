@@ -11,9 +11,7 @@ const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER?.replace(/\D/g, '') 
 const whatsapp = `https://wa.me/${whatsappNumber}`;
 
 function VehicleCard({ id, name, image, color, year, kind, usualLoadLb, maxLoadLb, loadType }: (typeof fleet)[number]) {
-  const publicOrigin = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)
-    ? 'https://test.anubisreal.es' : location.origin;
-  const link = new URL(`${import.meta.env.BASE_URL}equipos/${id}/`, publicOrigin);
+  const link = new URL(`${import.meta.env.BASE_URL}equipos/${id}/`, location.origin);
   const inquiry = `Hola, Berenguer. Me interesa alquilar ${name} (${year}). ¿Está disponible?
 ${link.href}`;
   const [open, setOpen] = useState(false);

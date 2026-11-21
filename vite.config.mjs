@@ -8,6 +8,5 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 4321,
     strictPort: true,
-    allowedHosts: ['test.anubisreal.es'],
   },
 });
