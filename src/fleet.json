@@ -1,0 +1,79 @@
+[
+  {
+    "id": "ficha-ram",
+    "name": "RAM 3500",
+    "image": "ram-3500-2024-blanca.jpg",
+    "year": "2024",
+    "color": "Blanco",
+    "kind": "vehículo",
+    "usualLoadLb": null,
+    "maxLoadLb": null,
+    "loadType": "Carga útil de la pickup"
+  },
+  {
+    "id": "ficha-chevrolet",
+    "name": "Chevrolet Silverado 3500 HD High Country",
+    "image": "chevrolet-silverado-3500-hd-roja.jpg",
+    "year": "2021",
+    "color": "Rojo",
+    "kind": "vehículo",
+    "usualLoadLb": null,
+    "maxLoadLb": null,
+    "loadType": "Carga útil de la pickup"
+  },
+  {
+    "id": "ficha-ford",
+    "name": "Ford Super Duty",
+    "image": "ford-super-duty-gris.jpg",
+    "year": "2013",
+    "color": "Gris",
+    "kind": "vehículo",
+    "usualLoadLb": null,
+    "maxLoadLb": null,
+    "loadType": "Carga útil de la pickup"
+  },
+  {
+    "id": "ficha-freightliner",
+    "name": "Freightliner frigorífico",
+    "image": "freightliner-frigorifico-blanco.jpg",
+    "year": "2018",
+    "color": "Blanco",
+    "kind": "vehículo",
+    "usualLoadLb": null,
+    "maxLoadLb": null,
+    "loadType": "Carga útil refrigerada"
+  },
+  {
+    "id": "ficha-trailer-40",
+    "name": "Tráiler cuello de ganso de 40 pies",
+    "image": "trailer-horizon-40-pies-2025.jpg",
+    "year": "2025",
+    "color": "Negro",
+    "kind": "tráiler",
+    "usualLoadLb": null,
+    "maxLoadLb": null,
+    "loadType": "Carga útil del tráiler"
+  },
+  {
+    "id": "ficha-horizon-2021-1",
+    "name": "Tráiler Horizon de 40 pies · Unidad 1",
+    "image": "trailer-horizon-40-pies-2021-gris.jpg",
+    "year": "2021",
+    "color": "Gris",
+    "kind": "tráiler",
+    "usualLoadLb": null,
+    "maxLoadLb": null,
+    "loadType": "Carga útil del tráiler"
+  },
+  {
+    "id": "ficha-horizon-2021-2",
+    "name": "Tráiler Horizon de 40 pies · Unidad 2",
+    "image": "trailer-horizon-40-pies-2021-gris.jpg",
+    "year": "2021",
+    "color": "Gris",
+    "kind": "tráiler",
+    "usualLoadLb": null,
+    "maxLoadLb": null,
+    "loadType": "Carga útil del tráiler"
+  }
+]

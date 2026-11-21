@@ -1,0 +1,144 @@
+import { useLayoutEffect, useRef, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import '@fontsource/barlow-condensed/latin-900.css';
+import './style.css';
+import fleet from './fleet.json';
+
+const facebook = import.meta.env.VITE_FACEBOOK_URL;
+const tiktok = import.meta.env.VITE_TIKTOK_URL;
+const instagram = import.meta.env.VITE_INSTAGRAM_URL;
+const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER?.replace(/\D/g, '') || '19419771723';
+const whatsapp = `https://wa.me/${whatsappNumber}`;
+
+function VehicleCard({ id, name, image, color, year, kind, usualLoadLb, maxLoadLb, loadType }: (typeof fleet)[number]) {
+  const publicOrigin = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)
+    ? 'https://test.anubisreal.es' : location.origin;
+  const link = new URL(`${import.meta.env.BASE_URL}equipos/${id}/`, publicOrigin);
+  const inquiry = `Hola, Berenguer. Me interesa alquilar ${name} (${year}). ¿Está disponible?
+${link.href}`;
+  const [open, setOpen] = useState(false);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
+
+  useLayoutEffect(() => {
+    if (open) closeButton.current?.focus({ preventScroll: true });
+    else if (wasOpen.current) trigger.current?.focus({ preventScroll: true });
+    wasOpen.current = open;
+  }, [open]);
+
+  return (
+    <div className="fleet-frame">
+        <button
+          className="vehicle-card"
+          type="button"
+          ref={trigger}
+          inert={open}
+          aria-expanded={open}
+          aria-controls={id}
+          onClick={() => setOpen(true)}
+        >
+          <img src={`${import.meta.env.BASE_URL}images/${image}`} alt={name + ", vista delantera de tres cuartos"} width="1536" height="1024" />
+          <span className="vehicle-caption">
+            <span className="vehicle-name">
+              <span className="vehicle-title">{name}</span>
+              <small>{year ? year + " · " : ""}{color}</small>
+            </span>
+            <span className="vehicle-action">Ver ficha</span>
+          </span>
+        </button>
+      <section
+        id={id}
+        className="vehicle-details"
+        data-open={open}
+        inert={!open}
+        aria-labelledby={id + "-titulo"}
+        onKeyDown={event => {
+          if (event.key === 'Escape') setOpen(false);
+        }}
+      >
+      <div className="vehicle-panel">
+        <div className="panel-heading">
+          <div>
+            <h2 id={id + "-titulo"}>{name}</h2>
+            <p>{[year, color].filter(Boolean).join(' · ')}</p>
+          </div>
+          <button type="button" className="panel-close" aria-label="Cerrar ficha" ref={closeButton} onClick={() => setOpen(false)}>×</button>
+        </div>
+        <section className="load-summary" aria-label={loadType}>
+          <h3>{loadType}</h3>
+          <dl><div><dt>Habitual</dt><dd>{usualLoadLb == null ? 'Consultar' : usualLoadLb + ' lb'}</dd></div>
+          <div><dt>Máxima</dt><dd>{maxLoadLb == null ? 'Por confirmar' : maxLoadLb + ' lb'}</dd></div></dl>
+        </section>
+        <a className="panel-contact" href={`${whatsapp}?text=${encodeURIComponent(inquiry)}`}>
+          Me interesa este {kind} <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      </section>
+    </div>
+  );
+}
+
+function App() {
+  const [showHeader, setShowHeader] = useState(() => window.scrollY > 8);
+
+  useLayoutEffect(() => {
+    const syncHeader = () => setShowHeader(window.scrollY > 8);
+    syncHeader();
+    window.addEventListener('scroll', syncHeader, { passive: true });
+    return () => window.removeEventListener('scroll', syncHeader);
+  }, []);
+
+  return (<>
+
+    <main>
+      <div className="rental-hero">
+        <picture className="rental-scene">
+          <source media="(max-aspect-ratio: 1/1)" srcSet={`${import.meta.env.BASE_URL}images/portada-berenguer-movil.jpg`} />
+          <img src={`${import.meta.env.BASE_URL}images/portada-berenguer.jpg`} alt="BERENGUER. RAM 3500 blanca remolcando un tráiler Horizon de cuello de ganso vacío por carretera" fetchPriority="high" />
+        </picture>
+      </div>
+    <header className="site-header" data-visible={showHeader} inert={!showHeader}>
+      <div className="header-inner">
+        <span className="company-name">Berenguer <span className="company-subtitle">TRANSPORT LLC</span></span>
+        <nav className="header-links" aria-label="Redes sociales y contacto">
+          <div className="social-links">
+            <a className="social-link" href={facebook || undefined} aria-disabled={!facebook} aria-label="Facebook" title="Facebook">
+              <svg viewBox="3.3 2.8 19 19" fill="currentColor" aria-hidden="true">
+                <path d="M14 21v-8h2.7l.4-3H14V8c0-.9.3-1.5 1.6-1.5h1.7V3.8c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2H8v3h2.6v8z" />
+              </svg>
+            </a>
+            <a className="social-link" href={instagram || undefined} aria-disabled={!instagram} aria-label="Instagram" title="Instagram">
+              <svg viewBox="2 2 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+                <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.2" cy="6.9" r="1" fill="currentColor" stroke="none" />
+              </svg>
+            </a>
+            <a className="social-link" href={tiktok || undefined} aria-disabled={!tiktok} aria-label="TikTok" title="TikTok">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M16.6 1c.3 2.8 1.9 4.6 4.9 4.9v3.6a9.2 9.2 0 0 1-4.9-1.5v7.8a7.1 7.1 0 1 1-6.1-7v3.7a3.5 3.5 0 1 0 2.4 3.3V1z" />
+              </svg>
+            </a>
+          </div>
+          <a className="whatsapp-link" href={whatsapp}>
+            <span className="whatsapp-icon" aria-hidden="true">
+              <img src={`${import.meta.env.BASE_URL}images/berenguer-pliegue.svg`} alt="" width="24" height="24" />
+            </span>
+            WhatsApp
+          </a>
+        </nav>
+      </div>
+    </header>
+      <section id="catalogo" className="fleet" aria-label="Catálogo de vehículos">
+        {fleet.map(vehicle => <VehicleCard key={vehicle.id} {...vehicle} />)}
+      </section>
+    </main>
+    <footer className="site-footer">
+      <span className="footer-logo"><img src={`${import.meta.env.BASE_URL}images/berenguer-pliegue.svg`} width="40" height="40" alt="" /></span>
+      © {new Date().getFullYear()} Berenguer Transport LLC. All rights reserved.
+    </footer>
+  </>);
+}
+
+createRoot(document.getElementById('root')!).render(<App />);
